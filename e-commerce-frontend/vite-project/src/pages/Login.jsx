@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -11,7 +13,9 @@ const Login = () => {
       const response = await axios.post("http://localhost:5000/api/login", { email, password });
       const token = response.data.token;
       localStorage.setItem("token", token);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       alert("User logged in successfully");
+      navigate("/"); // Redirection vers la page d'accueil
     } catch (error) {
       console.error("There was an error logging in!", error);
     }
