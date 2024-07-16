@@ -11,6 +11,7 @@ const db = {};
 
 // Importez et définissez les modèles ici
 db.Product = require('./product.model')(sequelize, Sequelize.DataTypes);
+db.User = require('./user.model')(sequelize, Sequelize.DataTypes);
 
 // Vous pouvez ajouter d'autres modèles ici de la même manière
 // db.OtherModel = require('./other.model')(sequelize, Sequelize.DataTypes);
