@@ -8,12 +8,13 @@ const Products = () => {
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    axios.get("/api/products").then((response) => {
-      setProducts(response.data);
-    })
-    .catch((error) => {
-      console.error("There was an error fetching the products!", error);
-    });
+    axios.get("/api/products")
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the products!", error);
+      });
   }, []);
 
   return (

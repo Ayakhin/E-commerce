@@ -16,7 +16,7 @@ const Register = () => {
     }
   };
 
-  return (
+  return (  
     <form onSubmit={handleRegister}>
       <input
         type="text"
