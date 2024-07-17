@@ -1,9 +1,10 @@
 // src/pages/Products.jsx
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+
+axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -21,8 +22,8 @@ const Products = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Supprimez le token
-    navigate("/login"); // Redirigez vers la page de connexion
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (

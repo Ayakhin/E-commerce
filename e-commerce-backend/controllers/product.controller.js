@@ -1,3 +1,5 @@
+// e-commerce-backend/controllers/product.controller.js
+
 const db = require("../models");
 const Product = db.Product; // Assurez-vous que 'products' est le modèle Sequelize correct
 

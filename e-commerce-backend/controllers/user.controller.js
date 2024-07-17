@@ -14,6 +14,7 @@ exports.validateUser = [
 exports.register = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log("Validation errors:", errors.array()); // Ajoutez ce log pour voir les erreurs de validation
     return res.status(400).json({ errors: errors.array() });
   }
 
