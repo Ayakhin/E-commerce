@@ -1,15 +1,14 @@
-// e-commerce-backend/controllers/product.controller.js
-
 const db = require("../models");
-const Product = db.Product; // Assurez-vous que 'products' est le modèle Sequelize correct
+const Product = db.Product;
 
 // Créer un produit
 exports.createProduct = async (req, res) => {
   try {
-    const product = await Product.create(req.body); // Crée un nouveau produit avec les données envoyées dans le corps de la requête
-    res.status(201).json(product); // Répond avec le produit créé
+    const product = await Product.create(req.body);
+    res.status(201).json(product);
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la création du produit", error });
+    console.error("Error creating product:", error); // Log de l'erreur
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -17,17 +16,16 @@ exports.createProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const [updated] = await Product.update(req.body, {
-      where: { id: id },
-    });
+    const [updated] = await Product.update(req.body, { where: { id } });
     if (updated) {
-      const updatedProduct = await Product.findByPk(id);
+      const updatedProduct = await Product.findOne({ where: { id } });
       res.status(200).json(updatedProduct);
     } else {
-      res.status(404).json({ message: "Produit non trouvé" });
+      throw new Error("Product not found");
     }
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la mise à jour du produit", error });
+    console.error("Error updating product:", error); // Log de l'erreur
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -35,42 +33,41 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await Product.destroy({
-      where: { id: id },
-    });
+    const deleted = await Product.destroy({ where: { id } });
     if (deleted) {
-      res.status(204).send(); // Répond avec un code 204 No Content si la suppression a réussi
+      res.status(204).json();
     } else {
-      res.status(404).json({ message: "Produit non trouvé" });
+      throw new Error("Product not found");
     }
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la suppression du produit", error });
+    console.error("Error deleting product:", error); // Log de l'erreur
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Obtenir un produit spécifique
+// Obtenir un produit
 exports.getProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByPk(id);
+    const product = await Product.findOne({ where: { id } });
     if (product) {
       res.status(200).json(product);
     } else {
-      res.status(404).json({ message: "Produit non trouvé" });
+      res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération du produit", error });
+    console.error("Error fetching product:", error); // Log de l'erreur
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Obtenir tous les produits
 exports.getAllProducts = async (req, res) => {
-
-  console.log('getAllProducts called');
   try {
     const products = await Product.findAll();
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération des produits", error });
+    console.error("Error fetching products:", error); // Log de l'erreur
+    res.status(500).json({ message: error.message });
   }
 };

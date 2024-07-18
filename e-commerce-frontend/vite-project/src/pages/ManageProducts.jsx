@@ -7,6 +7,7 @@ const ManageProducts = () => {
     name: "",
     description: "",
     price: "",
+    stock: "",
     imageUrl: ""
   });
   const [editMode, setEditMode] = useState(false);
@@ -14,7 +15,7 @@ const ManageProducts = () => {
 
   useEffect(() => {
     // Fetch all products on component mount
-    axios.get("/api/products")
+    axios.get("http://localhost:5000/api/products")
       .then(response => {
         setProducts(response.data);
       })
@@ -31,7 +32,7 @@ const ManageProducts = () => {
     e.preventDefault();
     if (editMode) {
       // Update existing product
-      axios.put(`/api/products/${currentProductId}`, formData)
+      axios.put(`http://localhost:5000/api/products/${currentProductId}`, formData)
         .then(response => {
           setProducts(products.map(product => product.id === currentProductId ? response.data : product));
           resetForm();
@@ -41,7 +42,7 @@ const ManageProducts = () => {
         });
     } else {
       // Create new product
-      axios.post("/api/products", formData)
+      axios.post("http://localhost:5000/api/products", formData)
         .then(response => {
           setProducts([...products, response.data]);
           resetForm();
@@ -53,7 +54,7 @@ const ManageProducts = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`/api/products/${id}`)
+    axios.delete(`http://localhost:5000/api/products/${id}`)
       .then(() => {
         setProducts(products.filter(product => product.id !== id));
       })
@@ -67,6 +68,7 @@ const ManageProducts = () => {
       name: product.name,
       description: product.description,
       price: product.price,
+      stock: product.stock,
       imageUrl: product.imageUrl
     });
     setEditMode(true);
@@ -78,6 +80,7 @@ const ManageProducts = () => {
       name: "",
       description: "",
       price: "",
+      stock: "",
       imageUrl: ""
     });
     setEditMode(false);
@@ -98,6 +101,7 @@ const ManageProducts = () => {
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter product name"
+            required
           />
         </div>
         <div className="form-group">
@@ -109,6 +113,7 @@ const ManageProducts = () => {
             value={formData.description}
             onChange={handleChange}
             placeholder="Enter product description"
+            required
           />
         </div>
         <div className="form-group">
@@ -121,6 +126,20 @@ const ManageProducts = () => {
             value={formData.price}
             onChange={handleChange}
             placeholder="Enter product price"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="stock">Stock</label>
+          <input
+            type="number"
+            className="form-control"
+            id="stock"
+            name="stock"
+            value={formData.stock}
+            onChange={handleChange}
+            placeholder="Enter product stock"
+            required
           />
         </div>
         <div className="form-group">
@@ -149,6 +168,7 @@ const ManageProducts = () => {
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text">{product.description}</p>
                 <p className="card-text"><strong>Price:</strong> ${product.price}</p>
+                <p className="card-text"><strong>Stock:</strong> {product.stock}</p>
                 <button className="btn btn-danger mr-2" onClick={() => handleDelete(product.id)}>Delete</button>
                 <button className="btn btn-secondary" onClick={() => handleEdit(product)}>Edit</button>
               </div>

@@ -1,9 +1,7 @@
-// middleware/authenticateToken.js
-
 const jwt = require("jsonwebtoken");
 
 const authenticateToken = (req, res, next) => {
-  const token = req.header("Authorization")?.split(" ")[1]; // Récupérez le token depuis l'en-tête Authorization
+  const token = req.header("Authorization")?.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "Access Denied" });
