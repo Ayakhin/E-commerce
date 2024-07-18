@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { DropdownButton, Dropdown } from "react-bootstrap";
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
@@ -8,7 +9,8 @@ const ManageProducts = () => {
     description: "",
     price: "",
     stock: "",
-    imageUrl: ""
+    imageUrl: "",
+    category: "Smartphone", // Valeur par défaut
   });
   const [editMode, setEditMode] = useState(false);
   const [currentProductId, setCurrentProductId] = useState(null);
@@ -69,7 +71,8 @@ const ManageProducts = () => {
       description: product.description,
       price: product.price,
       stock: product.stock,
-      imageUrl: product.imageUrl
+      imageUrl: product.imageUrl,
+      category: product.category,
     });
     setEditMode(true);
     setCurrentProductId(product.id);
@@ -81,7 +84,8 @@ const ManageProducts = () => {
       description: "",
       price: "",
       stock: "",
-      imageUrl: ""
+      imageUrl: "",
+      category: "Smartphone", // Réinitialiser la catégorie par défaut
     });
     setEditMode(false);
     setCurrentProductId(null);
@@ -154,6 +158,14 @@ const ManageProducts = () => {
             placeholder="Enter image URL"
           />
         </div>
+        <div className="form-group">
+          <label htmlFor="category">Category</label>
+          <DropdownButton id="category-dropdown" title={formData.category} onSelect={(eventKey) => setFormData({ ...formData, category: eventKey })}>
+            <Dropdown.Item eventKey="Smartphone">Smartphone</Dropdown.Item>
+            <Dropdown.Item eventKey="Laptop">Laptop</Dropdown.Item>
+            <Dropdown.Item eventKey="Watch">Watch</Dropdown.Item>
+          </DropdownButton>
+        </div>
         <button type="submit" className="btn btn-primary">{editMode ? "Update" : "Submit"}</button>
         {editMode && <button type="button" className="btn btn-secondary ml-2" onClick={resetForm}>Cancel</button>}
       </form>
@@ -169,6 +181,7 @@ const ManageProducts = () => {
                 <p className="card-text">{product.description}</p>
                 <p className="card-text"><strong>Price:</strong> ${product.price}</p>
                 <p className="card-text"><strong>Stock:</strong> {product.stock}</p>
+                <p className="card-text"><strong>Category:</strong> {product.category}</p>
                 <button className="btn btn-danger mr-2" onClick={() => handleDelete(product.id)}>Delete</button>
                 <button className="btn btn-secondary" onClick={() => handleEdit(product)}>Edit</button>
               </div>

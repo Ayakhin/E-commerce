@@ -23,9 +23,9 @@ const MyNavbar = () => {
             <Nav.Link as={Link} to="/cart">Cart</Nav.Link>
             <Nav.Link as={Link} to="/settings">Settings</Nav.Link>
             <NavDropdown title="Categories" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/category/1">Smartphone</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/category/2">Laptop</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/category/3">Watch</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/category/Smartphone">Smartphone</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/category/Laptop">Laptop</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/category/Watch">Watch</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Form className="d-flex">

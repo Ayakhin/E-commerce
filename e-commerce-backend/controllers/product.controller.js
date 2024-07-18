@@ -1,3 +1,5 @@
+// controllers/product.controller.js
+
 const db = require("../models");
 const Product = db.Product;
 
