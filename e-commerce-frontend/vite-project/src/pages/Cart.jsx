@@ -1,23 +1,43 @@
 // src/pages/Cart.jsx
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { Button, Container, ListGroup, Row, Col } from "react-bootstrap";
 
 const Cart = () => {
-  const { cart } = useContext(CartContext);
-  console.log("Cart contents:", cart);
+  const { cart, removeFromCart, clearItemFromCart, goToPayment } = useContext(CartContext);
+
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  };
 
   return (
-    <div>
+    <Container className="mt-4">
       <h1>Cart</h1>
-      <ul>
-        {cart.map((item, index) => (
-          <li key={index}>
-            {item.name} - {item.price}€
-          </li>
-        ))}
-      </ul>
-      <button>Checkout</button>
-    </div>
+      {cart.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        <>
+          <ListGroup>
+            {cart.map((item, index) => (
+              <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
+                <div>
+                  <h5>{item.name}</h5>
+                  <p>{item.price}€</p>
+                  <p>Quantity: {item.quantity}</p>
+                  <Button variant="secondary" size="sm" onClick={() => removeFromCart(index)}>-</Button>{" "}
+                  <Button variant="secondary" size="sm" onClick={() => addToCart(item)}>+</Button>
+                </div>
+                <Button variant="danger" onClick={() => clearItemFromCart(index)}>
+                  Remove
+                </Button>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+          <h3 className="mt-3">Total: {calculateTotal()}€</h3>
+          <Button className="mt-3" onClick={goToPayment}>Proceed to Payment</Button>
+        </>
+      )}
+    </Container>
   );
 };
 

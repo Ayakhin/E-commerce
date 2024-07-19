@@ -2,6 +2,7 @@
 
 const db = require("../models");
 const Product = db.Product;
+const { Op } = db.Sequelize;
 
 // Créer un produit
 exports.createProduct = async (req, res) => {
@@ -9,7 +10,7 @@ exports.createProduct = async (req, res) => {
     const product = await Product.create(req.body);
     res.status(201).json(product);
   } catch (error) {
-    console.error("Error creating product:", error); // Log de l'erreur
+    console.error("Error creating product:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -23,10 +24,10 @@ exports.updateProduct = async (req, res) => {
       const updatedProduct = await Product.findOne({ where: { id } });
       res.status(200).json(updatedProduct);
     } else {
-      throw new Error("Product not found");
+      res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
-    console.error("Error updating product:", error); // Log de l'erreur
+    console.error("Error updating product:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -37,17 +38,17 @@ exports.deleteProduct = async (req, res) => {
     const { id } = req.params;
     const deleted = await Product.destroy({ where: { id } });
     if (deleted) {
-      res.status(204).json();
+      res.status(204).json({ message: "Product deleted" });
     } else {
-      throw new Error("Product not found");
+      res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
-    console.error("Error deleting product:", error); // Log de l'erreur
+    console.error("Error deleting product:", error);
     res.status(500).json({ message: error.message });
   }
 };
 
-// Obtenir un produit
+// Obtenir un produit par ID
 exports.getProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -58,7 +59,7 @@ exports.getProduct = async (req, res) => {
       res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
-    console.error("Error fetching product:", error); // Log de l'erreur
+    console.error("Error getting product:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -69,7 +70,34 @@ exports.getAllProducts = async (req, res) => {
     const products = await Product.findAll();
     res.status(200).json(products);
   } catch (error) {
-    console.error("Error fetching products:", error); // Log de l'erreur
+    console.error("Error getting all products:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Rechercher des produits
+exports.searchProducts = async (req, res) => {
+  try {
+    const { query } = req.query;
+    if (!query) {
+      return res.status(400).json({ message: "Query parameter is required" });
+    }
+
+    const products = await Product.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${query}%`
+        }
+      }
+    });
+
+    if (products.length > 0) {
+      res.status(200).json(products);
+    } else {
+      res.status(404).json({ message: "No products found" });
+    }
+  } catch (error) {
+    console.error("Error searching products:", error);
     res.status(500).json({ message: error.message });
   }
 };

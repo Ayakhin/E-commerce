@@ -4,21 +4,24 @@
       "password": "root",
       "database": "ecommerce",
       "host": "127.0.0.1",
-      "dialect": "mysql" 
+      "dialect": "mysql",
+      "charset": "utf8mb4" 
     },
     "test": {
       "username": "root",
       "password": "root",
       "database": "ecommerce",
       "host": "127.0.0.1",
-      "dialect": "mysql"
+      "dialect": "mysql",
+      "charset": "utf8mb4" 
     },
     "production": {
       "username": "root",
       "password": "root",
       "database": "ecommerce",
       "host": "127.0.0.1",
-      "dialect": "mysql"
+      "dialect": "mysql",
+      "charset": "utf8mb4" 
     }
 }
   

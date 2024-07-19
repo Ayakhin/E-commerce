@@ -1,18 +1,23 @@
-// src/components/Navbar.jsx
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button } from 'react-bootstrap';
 
 const MyNavbar = () => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/search?query=${searchQuery}`);
+  };
+
   return (
-    <Navbar bg="light" expand="lg" className="">
+    <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">E-commerce</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -28,12 +33,14 @@ const MyNavbar = () => {
               <NavDropdown.Item as={Link} to="/category/Watch">Watch</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Form className="d-flex">
+          <Form className="d-flex" onSubmit={handleSearchSubmit}>
             <FormControl
               type="search"
               placeholder="Search"
               className="mr-sm-2"
               aria-label="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <Button variant="outline-success" type="submit">Search</Button>
           </Form>

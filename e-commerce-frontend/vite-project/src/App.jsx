@@ -11,7 +11,9 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ManageProducts from "./pages/ManageProducts";
 import Settings from "./pages/Settings";
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import SearchResults from "./pages/SearchResults"; 
+import Payment from "./pages/Payment";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Composant PrivateRoute
 const PrivateRoute = ({ element: Element, ...rest }) => {
@@ -21,22 +23,24 @@ const PrivateRoute = ({ element: Element, ...rest }) => {
 
 const App = () => {
   return (
-    <CartProvider>
-      <Router>
+    <Router>
+      <CartProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<PrivateRoute element={Products} />} />
-          <Route path="/products/:id" element={<ProductDetails />} />
-          <Route path="/orders" element={<OrderList />} />
-          <Route path="/orders/:id" element={<OrderDetails />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="/products/:id" element={<PrivateRoute element={ProductDetails} />} />
+          <Route path="/orders" element={<PrivateRoute element={OrderList} />} />
+          <Route path="/orders/:id" element={<PrivateRoute element={OrderDetails} />} />
+          <Route path="/cart" element={<PrivateRoute element={Cart} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/manage-products" element={<PrivateRoute element={ManageProducts} />} />
           <Route path="/settings" element={<PrivateRoute element={Settings} />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
-      </Router>
-    </CartProvider>
+      </CartProvider>
+    </Router>
   );
 };
 
