@@ -79,6 +79,7 @@ npm test -- --detectOpenHandles
 Structure du Projet
 Voici une brève description des principaux dossiers et fichiers du projet :
 
+## Back end
 config/: Contient les fichiers de configuration pour la base de données.
 controllers/: Contient les contrôleurs pour les routes de l'application.
 middleware/: Contient les middlewares pour l'application.
@@ -88,3 +89,10 @@ routes/: Contient les définitions des routes de l'application.
 tests/: Contient les tests unitaires pour l'application.
 app.js: Point d'entrée principal de l'application.
 server.js: Démarre le serveur et écoute les requêtes entrantes.
+
+## Front end
+
+src/: Contient le code source de l'application React.
+public/: Contient les fichiers statiques.
+vite.config.js: Configuration de Vite.
+tests/: Contient les tests unitaires pour l'application front-end.
